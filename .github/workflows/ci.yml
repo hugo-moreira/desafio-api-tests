@@ -5,7 +5,8 @@ on:
     branches: ['**']
   workflow_dispatch:
   schedule:
-    - cron: '0 18 * * 0'
+    - cron: '*/15 * * * *'
+      timezone: "America/Sao_Paulo"
 
 jobs:
   test:
