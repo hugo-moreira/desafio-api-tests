@@ -82,25 +82,25 @@ Os testes estão em `test/api.test.js` e cobrem os seguintes cenários:
 
 ## Pipeline de CI — GitHub Actions
 
-O arquivo `.github/workflows/ci.yml` configura a pipeline de integração contínua.
+O arquivo `.github/workflows/ci.yml` centraliza toda a pipeline em um único arquivo, contemplando os três tipos de trigger e as cinco etapas do job.
 
-### Quando a pipeline é executada
+### Triggers — quando a pipeline é executada
 
-| Trigger | Descrição |
-|---|---|
-| `push` | Executa automaticamente em qualquer push para qualquer branch |
-| `workflow_dispatch` | Permite execução manual pela aba **Actions** do repositório no GitHub |
-| `schedule` | Execução agendada **a cada 15 minutos** no fuso `America/Sao_Paulo` — cron `*/15 * * * *` |
+| # | Trigger | Descrição |
+|---|---------|-----------|
+| 1 | `push` | Executa automaticamente em qualquer push para qualquer branch |
+| 2 | `workflow_dispatch` | Permite execução manual pela aba **Actions** do repositório no GitHub |
+| 3 | `schedule` | Execução agendada a cada **15 minutos** no fuso `America/Sao_Paulo` — cron `*/15 * * * *` |
 
 ### Etapas do Job
 
-```
-1. Checkout          → baixa o código do repositório
-2. Setup Node.js 20  → configura o ambiente com cache do npm
-3. npm ci            → instala as dependências de forma determinística
-4. npm test          → executa os testes de API e gera o relatório mochawesome
-5. Upload Artifact   → publica o relatório como artefato da pipeline
-```
+| # | Step | O que faz |
+|---|------|-----------|
+| 1 | **Checkout** | Baixa o código do repositório no runner |
+| 2 | **Setup Node.js 20** | Configura o ambiente com cache do npm para acelerar instalações |
+| 3 | **npm ci** | Instala as dependências de forma determinística via `package-lock.json` |
+| 4 | **npm test** | Executa os testes de API e gera o relatório HTML via mochawesome |
+| 5 | **Upload Artifact** | Publica o relatório como artefato da pipeline com retenção de 30 dias |
 
 O step de upload usa `if: always()`, garantindo que o relatório seja publicado **mesmo quando os testes falham**.
 
@@ -111,6 +111,16 @@ O step de upload usa `if: always()`, garantindo que o relatório seja publicado 
 3. Selecione a execução desejada
 4. Na seção **Artifacts**, faça o download do arquivo `mochawesome-report`
 5. Extraia o `.zip` e abra o arquivo `index.html` no navegador
+
+### Como disparar manualmente
+
+Pela interface do GitHub:
+1. Aba **Actions** → workflow **CI** → botão **Run workflow**
+
+Pelo terminal com GitHub CLI:
+```bash
+gh workflow run ci.yml --repo hugo-moreira/desafio-api-tests --ref main
+```
 
 ---
 
@@ -139,3 +149,7 @@ Reporter para Mocha que gera relatório visual em HTML com status de cada teste,
 ### `npm ci`
 
 Substituto determinístico do `npm install` para ambientes de CI. Instala as dependências **exatamente** como definido no `package-lock.json`, garantindo consistência entre execuções locais e na pipeline.
+
+### `if: always()`
+
+Condicional do GitHub Actions que força um step a executar independente do resultado dos steps anteriores. Usado no upload do artefato para garantir que o relatório seja salvo mesmo quando os testes falham.

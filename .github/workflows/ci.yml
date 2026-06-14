@@ -1,34 +1,55 @@
-name: CI-jsonplaceholder
+name: CI
+
+# ─────────────────────────────────────────────
+# TRIGGERS — quando a pipeline é executada
+# ─────────────────────────────────────────────
 
 on:
+
+  # 1) PUSH — executa automaticamente a cada push em qualquer branch
   push:
     branches: ['**']
+
+  # 2) MANUAL — permite execução manual pela aba Actions do GitHub
   workflow_dispatch:
+
+  # 3) SCHEDULE — execução agendada a cada 15 minutos (fuso America/Sao_Paulo)
   schedule:
     - cron: '*/15 * * * *'
       timezone: "America/Sao_Paulo"
+
+# ─────────────────────────────────────────────
+# JOBS
+# ─────────────────────────────────────────────
 
 jobs:
   test:
     runs-on: ubuntu-latest
 
     steps:
+
+      # STEP 1 — baixa o código do repositório no runner
       - name: Checkout do repositório
         uses: actions/checkout@v4
 
+      # STEP 2 — configura Node.js 20 com cache do npm para acelerar instalações
       - name: Configurar Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
 
+      # STEP 3 — instala dependências de forma determinística via package-lock.json
       - name: Instalar dependências
         run: npm ci
 
-      - name: Executar testes de API
+      # STEP 4 — executa os testes e gera o relatório HTML via mochawesome
+      - name: Executar testes de API e gerar relatório
         run: npm test
 
-      - name: Publicar relatório mochawesome
+      # STEP 5 — publica o relatório como artefato da pipeline
+      #           if: always() garante o upload mesmo quando os testes falham
+      - name: Publicar relatório como artefato
         uses: actions/upload-artifact@v4
         if: always()
         with:
