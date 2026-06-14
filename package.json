@@ -1,0 +1,16 @@
+{
+  "name": "desafio-api-tests",
+  "version": "1.0.0",
+  "description": "Testes de API pública (JSONPlaceholder) com Mocha e pipeline CI via GitHub Actions",
+  "type": "module",
+  "scripts": {
+    "test": "mocha test/*.test.js --reporter mochawesome --reporter-options reportDir=mochawesome-report,reportFilename=index"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "mocha": "^11.7.5",
+    "mochawesome": "^7.1.3"
+  }
+}
