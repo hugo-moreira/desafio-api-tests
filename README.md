@@ -1,12 +1,12 @@
 # Desafio API Tests
 
-Projeto desenvolvido na disciplina de **Programação para Automações de Testes** da pós-graduação. Implementa testes automatizados contra uma API pública REST e uma pipeline de integração contínua via **GitHub Actions** com geração e publicação de relatório.
+Projeto pessoal e opcional para praticar testes automatizados de API e integração contínua. Implementa testes contra uma API pública REST utilizando **Mocha** e `fetch` nativo do Node.js, com pipeline de CI via **GitHub Actions** gerando e publicando relatório de execução.
 
 ---
 
 ## Objetivo
 
-Demonstrar a criação de testes de API utilizando **Mocha** e `fetch` nativo do Node.js, validando respostas HTTP reais de uma API pública — sem mocks ou stubs — e integrar esses testes a uma pipeline de CI completa.
+Explorar na prática a criação de testes de API sem mocks ou stubs — validando respostas HTTP reais de uma API pública — e integrá-los a uma pipeline de CI completa com geração de relatório visual.
 
 ---
 
@@ -90,7 +90,7 @@ O arquivo `.github/workflows/ci.yml` configura a pipeline de integração contí
 |---|---|
 | `push` | Executa automaticamente em qualquer push para qualquer branch |
 | `workflow_dispatch` | Permite execução manual pela aba **Actions** do repositório no GitHub |
-| `schedule` | Execução agendada todo **domingo às 15h00 (UTC-3)** — cron `0 18 * * 0` |
+| `schedule` | Execução agendada **a cada 15 minutos** no fuso `America/Sao_Paulo` — cron `*/15 * * * *` |
 
 ### Etapas do Job
 
