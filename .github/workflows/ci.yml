@@ -15,8 +15,7 @@ on:
 
   # 3) SCHEDULE — execução agendada a cada 15 minutos (fuso America/Sao_Paulo)
   schedule:
-    - cron: '*/15 * * * *'
-      timezone: "America/Sao_Paulo"
+    - cron: '*/30 * * * *'
 
 # ─────────────────────────────────────────────
 # JOBS

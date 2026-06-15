@@ -1,7 +1,7 @@
 # Desafio API Tests
 
 Projeto pessoal e opcional para praticar testes automatizados de API e integração contínua. Implementa testes contra uma API pública REST utilizando **Mocha** e `fetch` nativo do Node.js, com pipeline de CI via **GitHub Actions** gerando e publicando relatório de execução.
-
+ 
 ---
 
 ## Objetivo
